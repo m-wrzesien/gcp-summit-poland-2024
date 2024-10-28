@@ -1,0 +1,4 @@
+istiod:
+  meshConfig:
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY

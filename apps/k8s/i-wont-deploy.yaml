@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: i-wont-deploy
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: i-wont-deploy
+  template:
+    metadata:
+      labels:
+        app: i-wont-deploy
+    spec:
+      containers:
+        - name: i-wont-deploy
+          image: europe-docker.pkg.dev/esky-gcp-summit-warsaw-2024/docker-repo/nginx:vulnerable@sha256:9f7fcce7d8d1307877d94270de72521a2b57381b6733060415a20ea7d6d9fd9c
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

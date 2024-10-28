@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frontend
+  # labels:
+  #   istio-injection: enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: frontend
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+        sidecar.istio.io/inject: "true"
+    spec:
+      containers:
+        - name: nginx
+          image: europe-docker.pkg.dev/esky-gcp-summit-warsaw-2024/docker-repo/nginx:secure@sha256:2b8a28bc239db0490769a919a9db97dc92a0a1bb9f3366c585de066598102d2b
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: frontend
+spec:
+  selector:
+    app: nginx
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer

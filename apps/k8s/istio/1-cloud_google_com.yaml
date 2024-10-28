@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: cloud-google-com
+  namespace: frontend
+spec:
+  hosts:
+    - cloud.google.com
+  exportTo:
+    - "."
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+  resolution: DNS
+  location: MESH_EXTERNAL
